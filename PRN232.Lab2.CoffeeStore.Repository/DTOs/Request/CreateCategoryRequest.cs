@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace PRN232.Lab2.CoffeeStore.Repositories.DTOs.Request
 {
-    public class CreateCategoryRequest
+    public class CreateCategoryRequest : CommonCategoryRequest
     {
+
     }
 }

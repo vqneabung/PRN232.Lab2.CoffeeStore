@@ -8,5 +8,9 @@ namespace PRN232.Lab2.CoffeeStore.Repositories.DTOs.Request
 {
     public class CommonCategoryRequest
     {
+        public string? Name { get; set; }
+
+        public string? Description { get; set; }
+
     }
 }

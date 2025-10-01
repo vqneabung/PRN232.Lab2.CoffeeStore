@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PRN232.Lab2.CoffeeStore.Repositories.DTOs.Request
 {
-    public class CreateOrderRequest
+    public class CreateOrderRequest : CommonOrderRequest
     {
     }
 }

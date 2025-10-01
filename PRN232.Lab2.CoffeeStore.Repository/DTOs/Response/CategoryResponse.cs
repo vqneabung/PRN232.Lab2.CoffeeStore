@@ -8,5 +8,14 @@ namespace PRN232.Lab2.CoffeeStore.Repositories.DTOs.Response
 {
     public class CategoryResponse
     {
+
+        public string? Name { get; set; }
+
+        public string? Description { get; set; }
+
+        public DateTime? CreatedDate { get; set; }
+
+        public bool? IsActive { get; set; } = true;
+
     }
 }
