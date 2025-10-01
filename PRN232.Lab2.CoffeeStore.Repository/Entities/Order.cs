@@ -11,13 +11,13 @@ public partial class Order
 
     public string UserId { get; set; }
 
-    public DateTime? OrderDate { get; set; }
+    public DateTime? OrderDate { get; set; } = DateTime.Now;
 
     public string Status { get; set; }
 
     public int? PaymentId { get; set; }
 
-    public bool? IsActive { get; set; }
+    public bool? IsActive { get; set; } = true;
 
     public virtual ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
 

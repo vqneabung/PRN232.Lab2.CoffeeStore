@@ -17,9 +17,9 @@ public partial class Product
 
     public int? CategoryId { get; set; }
 
-    public bool? IsActive { get; set; }
+    public bool? IsActive { get; set; } = true;
 
-    public virtual Category Category { get; set; }
+    public virtual Category Category { get; set; } 
 
     public virtual ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
 }

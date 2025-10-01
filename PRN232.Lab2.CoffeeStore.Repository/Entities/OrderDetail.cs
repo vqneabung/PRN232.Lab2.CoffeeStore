@@ -17,7 +17,7 @@ public partial class OrderDetail
 
     public decimal UnitPrice { get; set; }
 
-    public bool? IsActive { get; set; }
+    public bool? IsActive { get; set; } = true;
 
     public virtual Order Order { get; set; }
 

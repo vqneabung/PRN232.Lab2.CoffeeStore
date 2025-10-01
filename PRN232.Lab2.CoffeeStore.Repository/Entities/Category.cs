@@ -13,9 +13,9 @@ public partial class Category
 
     public string Description { get; set; }
 
-    public DateTime? CreatedDate { get; set; }
+    public DateTime? CreatedDate { get; set; } = DateTime.Now;
 
-    public bool? IsActive { get; set; }
+    public bool? IsActive { get; set; } = true;
 
     public virtual ICollection<Product> Products { get; set; } = new List<Product>();
 }

@@ -7,8 +7,16 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Interfaces\" />
     <Folder Include="Services\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="15.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\ProjectBaseLangAndFramework\Framework\ASP.NET\API\BlogProject\Common\Common.csproj" />
+    <ProjectReference Include="..\PRN232.Lab2.CoffeeStore.Repository\PRN232.Lab2.CoffeeStore.Repositories.csproj" />
   </ItemGroup>
 
 </Project>
