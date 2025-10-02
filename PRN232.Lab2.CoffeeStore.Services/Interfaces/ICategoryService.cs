@@ -9,8 +9,8 @@ namespace PRN232.Lab2.CoffeeStore.Services.Interfaces
     public interface ICategoryService
     { 
         Task<OneOf<IEnumerable<CategoryResponse>, BaseError>> GetAlls();
-        Task<OneOf<CategoryResponse, BaseError>> GetById(int id);
+        Task<OneOf<CategoryResponse, BaseError>> GetById(Guid id);
         Task<OneOf<bool, BaseError>> Create(CreateCategoryRequest request);
-        Task<OneOf<bool, BaseError>> Update(int id, UpdateCategoryRequest request);
+        Task<OneOf<bool, BaseError>> Update(UpdateCategoryRequest request);
     }
 }

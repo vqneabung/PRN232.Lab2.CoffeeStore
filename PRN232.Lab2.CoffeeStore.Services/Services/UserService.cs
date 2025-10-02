@@ -7,6 +7,7 @@ using PRN232.Lab2.CoffeeStore.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -23,19 +24,50 @@ namespace PRN232.Lab2.CoffeeStore.Services.Services
             _mapper = mapper;
         }
 
-        public Task<OneOf<bool, BaseError>> Delete(int id)
+        public async Task<OneOf<bool, BaseError>> Delete(Guid id)
         {
-            throw new NotImplementedException();
+            var user = await _unitOfWork.Users.GetByIdAsync(u => u.Id == id);
+            if (user == null)
+                return (BaseError)"User not found";
+
+            try
+            {
+                _unitOfWork.Users.Remove(user);
+                await _unitOfWork.Users.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return (BaseError)ex.Message;
+            }
         }
 
-        public Task<OneOf<IEnumerable<UserResponse>, BaseError>> GetAlls()
+        public async Task<OneOf<IEnumerable<UserResponse>, BaseError>> GetAlls()
         {
-            throw new NotImplementedException();
+            try
+            {
+                var users = await _unitOfWork.Users.GetAllAsync();
+                var userResponses = _mapper.Map<IEnumerable<UserResponse>>(users);
+                return userResponses.ToList();
+            }
+            catch (Exception ex)
+            {
+                return (BaseError)ex.Message;
+            }
         }
 
-        public Task<OneOf<UserResponse, BaseError>> GetById(int id)
+        public async Task<OneOf<UserResponse, BaseError>> GetById(Guid id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var user = await _unitOfWork.Users.GetByIdAsync(u => u.Id == id);
+                return _mapper.Map<UserResponse>(user);
+            }
+            catch (Exception ex)
+            {
+                return (BaseError)ex.Message;
+            }
+
         }
     }
 }

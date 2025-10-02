@@ -12,6 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using OneOf;
 using Common;
+using Common.DTOs.Request;
 
 namespace PRN232.Lab2.CoffeeStore.Services.Services
 {
@@ -29,29 +30,86 @@ namespace PRN232.Lab2.CoffeeStore.Services.Services
             _mapper = mapper;
         }
 
-        public Task<OneOf<bool, BaseError>> Create(CreateProductRequest productDto)
+        public async Task<OneOf<bool, BaseError>> Create(CreateProductRequest productDto)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var product = _mapper.Map<Product>(productDto);
+                await _unitOfWork.Products.AddAsync(product);
+                await _unitOfWork.Products.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return (BaseError)ex.Message;
+            }
         }
 
-        public Task<OneOf<bool, BaseError>> Delete(int id)
+        public async Task<OneOf<bool, BaseError>> Delete(Guid id)
         {
-            throw new NotImplementedException();
+            var product = await _unitOfWork.Products.GetByIdAsync(p => p.ProductId == id);
+            if (product == null)
+                return (BaseError)"Product not found";
+            try
+            {
+                _unitOfWork.Products.Remove(product);
+                await _unitOfWork.Products.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return (BaseError)ex.Message;
+            }
         }
 
-        public Task<OneOf<IEnumerable<ProductResponse>, BaseError>> GetAlls()
+        public async Task<OneOf<IEnumerable<ProductResponse>, BaseError>> GetAlls(PagedAndSortedRequest pagedAndSortedRequest)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var (products, totalCount) = await _unitOfWork.Products.GetPagedAsync(
+                     pageNumber: pagedAndSortedRequest.PageNumber,
+                     pageSize: pagedAndSortedRequest.PageSize);
+                var productResponses = _mapper.Map<IEnumerable<ProductResponse>>(products);
+                return productResponses.ToList();
+            }
+            catch (Exception ex)
+            {
+                return (BaseError)ex.Message;
+            }
         }
 
-        public Task<OneOf<ProductResponse, BaseError>> GetById(int id)
+        public async Task<OneOf<ProductResponse, BaseError>> GetById(Guid id)
         {
-            throw new NotImplementedException();
+            var product = await _unitOfWork.Products.GetByIdAsync(p => p.ProductId == id);
+            if (product == null)
+                return (BaseError)"Product not found";
+            try
+            {
+                var productResponse = _mapper.Map<ProductResponse>(product);
+                return productResponse;
+            }
+            catch (Exception ex)
+            {
+                return (BaseError)ex.Message;
+            }
         }
 
-        public Task<OneOf<bool, BaseError>> Update(UpdateProductRequest productDto)
+        public async Task<OneOf<bool, BaseError>> Update(UpdateProductRequest productDto)
         {
-            throw new NotImplementedException();
+            var product = await _unitOfWork.Products.GetByIdAsync(p => p.ProductId == productDto.ProductId);
+            if (product == null)
+                return (BaseError)"Product not found";
+            try
+            {
+                _mapper.Map(productDto, product);
+                _unitOfWork.Products.Update(product);
+                await _unitOfWork.Products.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return (BaseError)ex.Message;
+            }
         }
     }
 }

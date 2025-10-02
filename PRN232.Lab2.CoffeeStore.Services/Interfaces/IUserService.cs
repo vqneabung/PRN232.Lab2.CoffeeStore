@@ -14,8 +14,8 @@ namespace PRN232.Lab2.CoffeeStore.Services.Interfaces
     {
         Task<OneOf<IEnumerable<UserResponse>, BaseError>> GetAlls();
 
-        Task<OneOf<UserResponse, BaseError>> GetById(int id);
+        Task<OneOf<UserResponse, BaseError>> GetById(Guid id);
 
-        Task<OneOf<bool, BaseError>> Delete(int id);
+        Task<OneOf<bool, BaseError>> Delete(Guid id);
     }
 }

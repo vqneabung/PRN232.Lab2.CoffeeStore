@@ -1,5 +1,6 @@
 ﻿using Azure;
 using Common;
+using Common.DTOs.Request;
 using OneOf;
 using PRN232.Lab2.CoffeeStore.Repositories.DTOs.Request;
 using PRN232.Lab2.CoffeeStore.Repositories.DTOs.Response;
@@ -13,9 +14,9 @@ namespace PRN232.Lab2.CoffeeStore.Services.Interfaces
 {
     public interface IOrderService
     {
-        Task<OneOf<PagedResponse<OrderResponse>, BaseError>> GetAllAsync();
-        Task<OneOf<OrderResponse, BaseError>> GetByIdAsync(int id);
+        Task<OneOf<PagedResponse<OrderResponse>, BaseError>> GetAllAsync(PagedAndSortedRequest pagedAndSortedRequest);
+        Task<OneOf<OrderResponse, BaseError>> GetByIdAsync(Guid id);
         Task<OneOf<bool, BaseError>> CreateAsync(CreateOrderRequest request);
-        Task<OneOf<bool, BaseError>> DeleteAsync(int id);
+        Task<OneOf<bool, BaseError>> DeleteAsync(Guid id);
     }
 }

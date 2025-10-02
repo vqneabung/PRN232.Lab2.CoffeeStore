@@ -20,9 +20,7 @@ namespace PRN232.Lab2.CoffeeStore.Repository.Interfaces
         public IGenericRepository<Order> Orders { get; }
         public IGenericRepository<OrderDetail> OrderDetails { get; }
         public IGenericRepository<Payment> Payments { get; }
-
         public IGenericRepository<User> Users { get; }
-
         public IAuthRepository Auths { get; }
 
         // Transaction methods

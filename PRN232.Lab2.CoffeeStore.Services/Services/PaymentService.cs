@@ -12,6 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Common;
 using OneOf;
+using Common.DTOs.Request;
 
 namespace PRN232.Lab2.CoffeeStore.Services.Services
 {
@@ -29,24 +30,66 @@ namespace PRN232.Lab2.CoffeeStore.Services.Services
             _mapper = mapper;
         }
 
-        public Task<OneOf<bool, BaseError>> CreateAsync(CreatePaymentRequest request)
+        public async Task<OneOf<bool, BaseError>> CreateAsync(CreatePaymentRequest request)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var payment = _mapper.Map<Payment>(request);
+                await _unitOfWork.Payments.AddAsync(payment);
+                await _unitOfWork.Payments.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return (BaseError)ex.Message;
+            }
+
+        public async Task<OneOf<bool, BaseError>> DeleteAsync(Guid id)
+        {
+            var payment = await _unitOfWork.Payments.GetByIdAsync(p => p.PaymentId == id);
+            if (payment == null)
+                return (BaseError)"Payment not found";
+            try
+            {
+                _unitOfWork.Payments.Remove(payment);
+                await _unitOfWork.Payments.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return (BaseError)ex.Message;
+            }
         }
 
-        public Task<OneOf<bool, BaseError>> DeleteAsync(int id)
+        public async Task<OneOf<PagedResponse<PaymentResponse>, BaseError>> GetAllAsync(PagedAndSortedRequest pagedAndSortedRequest)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var (payments, totalCount) = await _unitOfWork.Payments.GetPagedAsync(
+                     pageNumber: pagedAndSortedRequest.PageNumber,
+                     pageSize: pagedAndSortedRequest.PageSize);
+
+                var paymentResponses = _mapper.Map<IEnumerable<PaymentResponse>>(payments);
+                return PagedResponse<PaymentResponse>.Ok(paymentResponses.ToList(), pagedAndSortedRequest.PageNumber, pagedAndSortedRequest.PageSize, totalCount);
+            } catch (Exception ex)
+            {
+                return (BaseError)ex.Message;
+            }
         }
 
-        public Task<OneOf<PagedResponse<PaymentResponse>, BaseError>> GetAllAsync()
+        public async Task<OneOf<PaymentResponse, BaseError>> GetByIdAsync(Guid id)
         {
-            throw new NotImplementedException();
-        }
-
-        public Task<OneOf<PaymentResponse, BaseError>> GetByIdAsync(int id)
-        {
-            throw new NotImplementedException();
+            try 
+            {
+                var payment = await _unitOfWork.Payments.GetByIdAsync(p => p.PaymentId == id);
+                if (payment == null)
+                    return (BaseError)"Payment not found";
+                var paymentResponse = _mapper.Map<PaymentResponse>(payment);
+                return paymentResponse;
+            } catch (Exception ex)
+            {
+                return (BaseError)ex.Message;
+            }
         }
     }
 }

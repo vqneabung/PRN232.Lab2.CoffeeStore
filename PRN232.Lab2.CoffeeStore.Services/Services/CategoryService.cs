@@ -23,24 +23,79 @@ namespace PRN232.Lab2.CoffeeStore.Services.Services
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
 
-        public Task<OneOf<bool, BaseError>> Create(CreateCategoryRequest request)
+        public CategoryService(IUnitOfWork unitOfWork, IMapper mapper)
         {
-            throw new NotImplementedException();
+            _unitOfWork = unitOfWork;
+            _mapper = mapper;
         }
 
-        public Task<OneOf<IEnumerable<CategoryResponse>, BaseError>> GetAlls()
+        public async Task<OneOf<bool, BaseError>> Create(CreateCategoryRequest request)
         {
-            throw new NotImplementedException();
+            var category = _mapper.Map<Category>(request);
+            try
+            {
+                await _unitOfWork.Categories.AddAsync(category);
+                await _unitOfWork.Categories.SaveChangesAsync();
+                return true;
+            }
+
+            catch (Exception ex)
+            {
+                return (BaseError)ex.Message;
+            }
+
         }
 
-        public Task<OneOf<CategoryResponse, BaseError>> GetById(int id)
+        public async Task<OneOf<IEnumerable<CategoryResponse>, BaseError>> GetAlls()
         {
-            throw new NotImplementedException();
+            try 
+            {
+                var categories = await _unitOfWork.Categories.GetAllAsync();
+                var categoryResponses = _mapper.Map<IEnumerable<CategoryResponse>>(categories);
+                return categoryResponses.ToList();
+            }
+            catch (Exception ex)
+            {
+                return (BaseError)ex.Message;
+            }
         }
 
-        public Task<OneOf<bool, BaseError>> Update(int id, UpdateCategoryRequest request)
+        public async Task<OneOf<CategoryResponse, BaseError>> GetById(Guid id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var category = await _unitOfWork.Categories.GetByIdAsync(c => c.CategoryId == id);
+                if (category == null)
+                {
+                    return (BaseError)"Category not found";
+                }
+                var categoryResponse = _mapper.Map<CategoryResponse>(category);
+                return categoryResponse;
+            }
+            catch (Exception ex)
+            {
+                return (BaseError)ex.Message;
+            }
+
+        }
+        public async Task<OneOf<bool, BaseError>> Update(UpdateCategoryRequest request)
+        {
+            var category = await _unitOfWork.Categories.GetByIdAsync(c => c.CategoryId == request.CategoryId);
+            if (category == null)
+            {
+                return (BaseError)"Category not found";
+            }
+            _mapper.Map(request, category);
+            try
+            {
+                _unitOfWork.Categories.Update(category);
+                await _unitOfWork.Categories.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return (BaseError)ex.Message;
+            }
         }
     }
 }

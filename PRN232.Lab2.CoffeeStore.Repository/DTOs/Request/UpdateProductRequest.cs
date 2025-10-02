@@ -8,6 +8,6 @@ namespace PRN232.Lab2.CoffeeStore.Repositories.DTOs.Request
 {
     public class UpdateProductRequest
     {
-        public string? ProductId { get; set; }
+        public Guid? ProductId { get; set; }
     }
 }

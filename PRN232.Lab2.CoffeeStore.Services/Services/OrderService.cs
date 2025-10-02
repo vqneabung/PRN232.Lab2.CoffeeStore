@@ -1,17 +1,18 @@
 ﻿using AutoMapper;
-using PRN232.Lab2.CoffeeStore.Repository.Interfaces;
-using PRN232.Lab2.CoffeeStore.Services.Interfaces;
-using PRN232.Lab2.CoffeeStore.Repositories.Entities;
+using Common;
+using Common.DTOs.Request;
+using OneOf;
 using PRN232.Lab2.CoffeeStore.Repositories.DTOs.Request;
 using PRN232.Lab2.CoffeeStore.Repositories.DTOs.Response;
+using PRN232.Lab2.CoffeeStore.Repositories.Entities;
+using PRN232.Lab2.CoffeeStore.Repository.Interfaces;
+using PRN232.Lab2.CoffeeStore.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
-using Common;
-using OneOf;
 
 namespace PRN232.Lab2.CoffeeStore.Services.Services
 {
@@ -23,24 +24,70 @@ namespace PRN232.Lab2.CoffeeStore.Services.Services
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
 
-        public Task<OneOf<bool, BaseError>> CreateAsync(CreateOrderRequest request)
+        public async Task<OneOf<bool, BaseError>> CreateAsync(CreateOrderRequest request)
         {
-            throw new NotImplementedException();
+            var order = _mapper.Map<Order>(request);
+            try
+            {
+                await _unitOfWork.Orders.AddAsync(order);
+                await _unitOfWork.Orders.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return (BaseError)ex.Message;
+            }
         }
 
-        public Task<OneOf<bool, BaseError>> DeleteAsync(int id)
+        public async Task<OneOf<bool, BaseError>> DeleteAsync(Guid id)
         {
-            throw new NotImplementedException();
+            var order = await _unitOfWork.Orders.GetByIdAsync(o => o.OrderId == id);
+            if (order == null)
+                return (BaseError)"Order not found";
+            try
+            {
+                _unitOfWork.Orders.Remove(order);
+                await _unitOfWork.Orders.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return (BaseError)ex.Message;
+
+            }
         }
 
-        public Task<OneOf<PagedResponse<OrderResponse>, BaseError>> GetAllAsync()
+        public async Task<OneOf<PagedResponse<OrderResponse>, BaseError>> GetAllAsync(PagedAndSortedRequest pagedAndSortedRequest)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var (orders, totalCount) = await _unitOfWork.Orders.GetPagedAsync(
+                  pageNumber: pagedAndSortedRequest.PageNumber,
+                  pageSize: pagedAndSortedRequest.PageSize,
+                  asNoTracking: true
+                );
+                var orderResponses = _mapper.Map<IEnumerable<OrderResponse>>(orders);
+                return PagedResponse<OrderResponse>.Ok(orderResponses.ToList(), totalCount, pagedAndSortedRequest.PageNumber, pagedAndSortedRequest.PageSize);
+            }
+            catch (Exception ex)
+            {
+                return (BaseError)ex.Message;
+            }
         }
 
-        public Task<OneOf<OrderResponse, BaseError>> GetByIdAsync(int id)
+        public async Task<OneOf<OrderResponse, BaseError>> GetByIdAsync(Guid id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var order = await _unitOfWork.Orders.GetByIdAsync(o => o.OrderId == id);
+                if (order == null)
+                    return (BaseError)"Order not found";
+                return _mapper.Map<OrderResponse>(order);
+            }
+            catch (Exception ex)
+            {
+                return (BaseError)ex.Message;
+            }
         }
     }
 }

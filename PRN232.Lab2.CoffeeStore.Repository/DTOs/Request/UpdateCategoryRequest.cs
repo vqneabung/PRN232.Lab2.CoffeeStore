@@ -8,6 +8,6 @@ namespace PRN232.Lab2.CoffeeStore.Repositories.DTOs.Request
 {
     public class UpdateCategoryRequest : CommonCategoryRequest
     {
-        public int CategoryId { get; set; }
+        public Guid CategoryId { get; set; }
     }
 }
