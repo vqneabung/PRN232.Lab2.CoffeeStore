@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace PRN232.Lab2.CoffeeStore.Services.Services
 {
-    public interface IAuthService
+    public class AuthService
     {
+
     }
 }

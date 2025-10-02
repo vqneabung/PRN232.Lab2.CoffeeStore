@@ -1,5 +1,6 @@
 using Common.Repository;
 using PRN232.Lab2.CoffeeStore.Repositories.Entities;
+using PRN232.Lab2.CoffeeStore.Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,6 +20,10 @@ namespace PRN232.Lab2.CoffeeStore.Repository.Interfaces
         public IGenericRepository<Order> Orders { get; }
         public IGenericRepository<OrderDetail> OrderDetails { get; }
         public IGenericRepository<Payment> Payments { get; }
+
+        public IGenericRepository<User> Users { get; }
+
+        public IAuthRepository Auths { get; }
 
         // Transaction methods
         //public Task<int> SaveChangesAsync();

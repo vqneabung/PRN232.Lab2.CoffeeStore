@@ -94,3 +94,4 @@ namespace PRN232.Lab2.CoffeeStore.Services.MapperProfile
                 .ForMember(dest => dest.IsActive, opt => opt.MapFrom(src => true));
         }
     }
+}

@@ -1,5 +1,6 @@
 ﻿using Common.Repository;
 using PRN232.Lab2.CoffeeStore.Repositories.Entities;
+using PRN232.Lab2.CoffeeStore.Repositories.Interfaces;
 using PRN232.Lab2.CoffeeStore.Repository.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -14,20 +15,26 @@ namespace PRN232.Lab2.CoffeeStore.Repositories.Repositories
             IGenericRepository<Product> productRepository,
             IGenericRepository<Order> orderRepository,
             IGenericRepository<OrderDetail> orderDetailRepository,
-            IGenericRepository<Payment> paymentRepository
+            IGenericRepository<Payment> paymentRepository,
+            IGenericRepository<User> userRepository,    
+            IAuthRepository authRepository
         ) : IUnitOfWork
     {
         private bool disposedValue;
 
-        IGenericRepository<Category> IUnitOfWork.Categories => categoryRepository;
+        public IGenericRepository<Category> Categories => categoryRepository;
 
-        IGenericRepository<Product> IUnitOfWork.Products => productRepository;
+        public IGenericRepository<Product> Products => productRepository;
 
-        IGenericRepository<Order> IUnitOfWork.Orders => orderRepository;
+        public IGenericRepository<Order> Orders => orderRepository;
 
-        IGenericRepository<OrderDetail> IUnitOfWork.OrderDetails => orderDetailRepository;
+        public IGenericRepository<OrderDetail> OrderDetails => orderDetailRepository;
 
-        IGenericRepository<Payment> IUnitOfWork.Payments => paymentRepository;
+        public IGenericRepository<Payment> Payments => paymentRepository;
+
+        public IGenericRepository<User> Users => userRepository;
+
+        public IAuthRepository Auths => authRepository;
 
         protected virtual void Dispose(bool disposing)
         {
