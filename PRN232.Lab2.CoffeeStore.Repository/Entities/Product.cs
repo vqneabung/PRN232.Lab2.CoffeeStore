@@ -7,7 +7,7 @@ namespace PRN232.Lab2.CoffeeStore.Repositories.Entities;
 
 public partial class Product
 {
-    public int ProductId { get; set; }
+    public Guid ProductId { get; set; }
 
     public string Name { get; set; }
 
@@ -15,7 +15,7 @@ public partial class Product
 
     public decimal Price { get; set; }
 
-    public int? CategoryId { get; set; }
+    public Guid? CategoryId { get; set; }
 
     public bool? IsActive { get; set; } = true;
 

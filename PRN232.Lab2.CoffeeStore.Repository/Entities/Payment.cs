@@ -7,9 +7,9 @@ namespace PRN232.Lab2.CoffeeStore.Repositories.Entities;
 
 public partial class Payment
 {
-    public int PaymentId { get; set; }
+    public Guid PaymentId { get; set; }
 
-    public int? OrderId { get; set; }
+    public Guid? OrderId { get; set; }
 
     public decimal Amount { get; set; }
 

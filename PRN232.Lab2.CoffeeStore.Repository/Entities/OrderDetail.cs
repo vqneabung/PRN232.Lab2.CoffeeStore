@@ -7,11 +7,11 @@ namespace PRN232.Lab2.CoffeeStore.Repositories.Entities;
 
 public partial class OrderDetail
 {
-    public int OrderDetailId { get; set; }
+    public Guid OrderDetailId { get; set; }
 
-    public int? OrderId { get; set; }
+    public Guid? OrderId { get; set; }
 
-    public int? ProductId { get; set; }
+    public Guid? ProductId { get; set; }
 
     public int Quantity { get; set; }
 
