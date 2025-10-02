@@ -1,5 +1,7 @@
 ﻿using PRN232.Lab1.CoffeeStore.Core.DTOs.Request;
 using PRN232.Lab1.CoffeeStore.Core.DTOs.Response;
+using PRN232.Lab2.CoffeeStore.Repositories.DTOs.Request;
+using PRN232.Lab2.CoffeeStore.Repositories.DTOs.Response;
 using System;
 using System.Collections.Generic;
 using System.Linq;
