@@ -11,6 +11,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using Common;
+using OneOf;
 
 namespace PRN232.Lab2.CoffeeStore.Services.Services
 {
@@ -22,28 +23,22 @@ namespace PRN232.Lab2.CoffeeStore.Services.Services
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
 
-        public OrderService(IUnitOfWork unitOfWork, IMapper mapper)
-        {
-            _unitOfWork = unitOfWork;
-            _mapper = mapper;
-        }
-
-        public Task<bool> CreateAsync(CreateOrderRequest request)
+        public Task<OneOf<bool, BaseError>> CreateAsync(CreateOrderRequest request)
         {
             throw new NotImplementedException();
         }
 
-        public Task<bool> DeleteAsync(int id)
+        public Task<OneOf<bool, BaseError>> DeleteAsync(int id)
         {
             throw new NotImplementedException();
         }
 
-        public Task<PagedResponse<OrderResponse>> GetAllAsync()
+        public Task<OneOf<PagedResponse<OrderResponse>, BaseError>> GetAllAsync()
         {
             throw new NotImplementedException();
         }
 
-        public Task<OrderResponse> GetByIdAsync(int id)
+        public Task<OneOf<OrderResponse, BaseError>> GetByIdAsync(int id)
         {
             throw new NotImplementedException();
         }

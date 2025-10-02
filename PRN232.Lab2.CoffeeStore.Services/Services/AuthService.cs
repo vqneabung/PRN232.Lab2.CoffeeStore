@@ -1,4 +1,6 @@
-﻿using PRN232.Lab2.CoffeeStore.Repositories.DTOs.Request;
+﻿using Common;
+using OneOf;
+using PRN232.Lab2.CoffeeStore.Repositories.DTOs.Request;
 using PRN232.Lab2.CoffeeStore.Repositories.DTOs.Response;
 using PRN232.Lab2.CoffeeStore.Repositories.Interfaces;
 using PRN232.Lab2.CoffeeStore.Repository.Interfaces;
@@ -20,17 +22,17 @@ namespace PRN232.Lab2.CoffeeStore.Services.Services
             _unitOfWork = unitOfWork;
         }
 
-        public Task<TokenResponse> LoginAsync(Login login)
+        public Task<OneOf<TokenResponse, BaseError>> LoginAsync(Login login)
         {
             throw new NotImplementedException();
         }
 
-        public Task<TokenResponse> RefreshTokenAsync(RefreshTokenRequest request)
+        public Task<OneOf<TokenResponse, BaseError>> RefreshTokenAsync(RefreshTokenRequest request)
         {
             throw new NotImplementedException();
         }
 
-        public Task<string> RegisterAsync(RegisterRequest register, string role)
+        public Task<OneOf<string, BaseError>> RegisterAsync(RegisterRequest register, string role)
         {
             throw new NotImplementedException();
         }

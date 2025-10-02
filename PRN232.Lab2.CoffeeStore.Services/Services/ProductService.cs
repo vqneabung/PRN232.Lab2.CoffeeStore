@@ -10,6 +10,8 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using OneOf;
+using Common;
 
 namespace PRN232.Lab2.CoffeeStore.Services.Services
 {
@@ -27,27 +29,27 @@ namespace PRN232.Lab2.CoffeeStore.Services.Services
             _mapper = mapper;
         }
 
-        public Task<bool> Create(CreateProductRequest productDto)
+        public Task<OneOf<bool, BaseError>> Create(CreateProductRequest productDto)
         {
             throw new NotImplementedException();
         }
 
-        public Task<bool> Delete(int id)
+        public Task<OneOf<bool, BaseError>> Delete(int id)
         {
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<ProductResponse>> GetAlls()
+        public Task<OneOf<IEnumerable<ProductResponse>, BaseError>> GetAlls()
         {
             throw new NotImplementedException();
         }
 
-        public Task<ProductResponse?> GetById(int id)
+        public Task<OneOf<ProductResponse, BaseError>> GetById(int id)
         {
             throw new NotImplementedException();
         }
 
-        public Task<bool> Update(UpdateProductRequest productDto)
+        public Task<OneOf<bool, BaseError>> Update(UpdateProductRequest productDto)
         {
             throw new NotImplementedException();
         }

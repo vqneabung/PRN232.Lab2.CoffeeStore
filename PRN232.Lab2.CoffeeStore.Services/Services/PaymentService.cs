@@ -11,6 +11,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using Common;
+using OneOf;
 
 namespace PRN232.Lab2.CoffeeStore.Services.Services
 {
@@ -28,22 +29,22 @@ namespace PRN232.Lab2.CoffeeStore.Services.Services
             _mapper = mapper;
         }
 
-        public Task<bool> CreateAsync(CreatePaymentRequest request)
+        public Task<OneOf<bool, BaseError>> CreateAsync(CreatePaymentRequest request)
         {
             throw new NotImplementedException();
         }
 
-        public Task<bool> DeleteAsync(int id)
+        public Task<OneOf<bool, BaseError>> DeleteAsync(int id)
         {
             throw new NotImplementedException();
         }
 
-        public Task<PagedResponse<PaymentResponse>> GetAllAsync()
+        public Task<OneOf<PagedResponse<PaymentResponse>, BaseError>> GetAllAsync()
         {
             throw new NotImplementedException();
         }
 
-        public Task<PaymentResponse?> GetByIdAsync(int id)
+        public Task<OneOf<PaymentResponse, BaseError>> GetByIdAsync(int id)
         {
             throw new NotImplementedException();
         }

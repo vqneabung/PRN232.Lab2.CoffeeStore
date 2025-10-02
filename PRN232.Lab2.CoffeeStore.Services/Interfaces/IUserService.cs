@@ -1,4 +1,6 @@
-﻿using PRN232.Lab2.CoffeeStore.Repositories.DTOs.Request;
+﻿using Common;
+using OneOf;
+using PRN232.Lab2.CoffeeStore.Repositories.DTOs.Request;
 using PRN232.Lab2.CoffeeStore.Repositories.DTOs.Response;
 using System;
 using System.Collections.Generic;
@@ -10,10 +12,10 @@ namespace PRN232.Lab2.CoffeeStore.Services.Interfaces
 {
     public interface IUserService
     {
-        Task<IEnumerable<UserResponse>> GetAlls();
+        Task<OneOf<IEnumerable<UserResponse>, BaseError>> GetAlls();
 
-        Task<UserResponse?> GetById(int id);
+        Task<OneOf<UserResponse, BaseError>> GetById(int id);
 
-        Task<bool> Delete(int id);
+        Task<OneOf<bool, BaseError>> Delete(int id);
     }
 }
