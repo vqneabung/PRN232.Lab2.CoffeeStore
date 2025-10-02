@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Common.Repository;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using PRN232.Lab2.CoffeeStore.Repositories.Data;
 
@@ -17,6 +18,9 @@ namespace PRN232.Lab2.CoffeeStore.API.Extensions
             services.AddDbContext<CoffeeStoreDB2Context>(options =>
                options.UseSqlServer(connectionString)
                    .ConfigureWarnings(w => w.Ignore(RelationalEventId.PendingModelChangesWarning)));
+
+            //Repository
+
 
 
             return services;
