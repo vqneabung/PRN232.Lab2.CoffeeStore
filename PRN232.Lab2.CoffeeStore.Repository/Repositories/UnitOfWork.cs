@@ -1,7 +1,6 @@
 ﻿using Common.Repository;
 using PRN232.Lab2.CoffeeStore.Repositories.Entities;
 using PRN232.Lab2.CoffeeStore.Repositories.Interfaces;
-using PRN232.Lab2.CoffeeStore.Repository.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;

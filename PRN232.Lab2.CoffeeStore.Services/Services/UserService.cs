@@ -2,7 +2,7 @@
 using Common;
 using OneOf;
 using PRN232.Lab2.CoffeeStore.Repositories.DTOs.Response;
-using PRN232.Lab2.CoffeeStore.Repository.Interfaces;
+using PRN232.Lab2.CoffeeStore.Repositories.Interfaces;
 using PRN232.Lab2.CoffeeStore.Services.Interfaces;
 using System;
 using System.Collections.Generic;

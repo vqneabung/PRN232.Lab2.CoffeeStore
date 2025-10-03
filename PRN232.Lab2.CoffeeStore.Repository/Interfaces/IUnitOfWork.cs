@@ -1,13 +1,12 @@
 using Common.Repository;
 using PRN232.Lab2.CoffeeStore.Repositories.Entities;
-using PRN232.Lab2.CoffeeStore.Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PRN232.Lab2.CoffeeStore.Repository.Interfaces
+namespace PRN232.Lab2.CoffeeStore.Repositories.Interfaces
 {
     /// <summary>
     /// Unit of Work interface for transaction management

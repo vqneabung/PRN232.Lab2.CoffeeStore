@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using PRN232.Lab2.CoffeeStore.Repository.Interfaces;
 using PRN232.Lab2.CoffeeStore.Services.Interfaces;
 using PRN232.Lab2.CoffeeStore.Repositories.Entities;
 using PRN232.Lab2.CoffeeStore.Repositories.DTOs.Request;
@@ -12,6 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using OneOf;
 using Common;
+using PRN232.Lab2.CoffeeStore.Repositories.Interfaces;
 
 namespace PRN232.Lab2.CoffeeStore.Services.Services
 {

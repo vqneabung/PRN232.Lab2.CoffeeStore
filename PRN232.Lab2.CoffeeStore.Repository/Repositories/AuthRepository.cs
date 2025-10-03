@@ -8,7 +8,7 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace EduConnect.Infrastructure.Repositories
+namespace PRN232.Lab2.CoffeeStore.Repositories.Repositories
 {
 	public class AuthRepository(CoffeeStoreDB2Context _context, IConfiguration configuration) : IAuthRepository
 	{

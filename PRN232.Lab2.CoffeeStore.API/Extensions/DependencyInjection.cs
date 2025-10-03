@@ -1,7 +1,12 @@
 ﻿using Common.Repository;
+using EduConnect.API.Configurations;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using PRN232.Lab2.CoffeeStore.Repositories.Data;
+using PRN232.Lab2.CoffeeStore.Repositories.Interfaces;
+using PRN232.Lab2.CoffeeStore.Repositories.Repositories;
+using PRN232.Lab2.CoffeeStore.Services.Interfaces;
+using PRN232.Lab2.CoffeeStore.Services.Services;
 
 namespace PRN232.Lab2.CoffeeStore.API.Extensions
 {
@@ -20,6 +25,19 @@ namespace PRN232.Lab2.CoffeeStore.API.Extensions
                    .ConfigureWarnings(w => w.Ignore(RelationalEventId.PendingModelChangesWarning)));
 
             //Repository
+            services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+            //Service
+            services.AddScoped<IAuthRepository, AuthRepository>();
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<ICategoryService, CategoryService>();
+            services.AddScoped<IProductService, ProductService>();
+            services.AddScoped<IOrderService, OrderService>();
+            services.AddScoped<IPaymentService, PaymentService>();
+
+            //Other
+            services.AddJWTAuthenticationScheme(configuration);
 
 
 
