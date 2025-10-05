@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Common;
 using Common.DTOs.Request;
+using Microsoft.EntityFrameworkCore;
 using OneOf;
 using PRN232.Lab2.CoffeeStore.Repositories.DTOs.Request;
 using PRN232.Lab2.CoffeeStore.Repositories.DTOs.Response;
@@ -46,7 +47,7 @@ namespace PRN232.Lab2.CoffeeStore.Services.Services
                 return (BaseError)"Order not found";
             try
             {
-                order.IsActive = false; 
+                order.IsActive = false;
                 _unitOfWork.Orders.Update(order);
                 await _unitOfWork.Orders.SaveChangesAsync();
                 return true;
@@ -76,6 +77,22 @@ namespace PRN232.Lab2.CoffeeStore.Services.Services
             }
         }
 
+        public async Task<OneOf<IEnumerable<OrderResponse>, BaseError>> GetAllOrdersByUserIdAsync(Guid userId)
+        {
+            try
+            {
+                var orders = await _unitOfWork.Orders.GetAllAsync(o => o.UserId == userId);
+                var orderResponses = _mapper.Map<IEnumerable<OrderResponse>>(orders);
+                return orderResponses.ToList();
+            }
+            catch (Exception ex)
+            {
+                return (BaseError)ex.Message;
+
+
+            }
+        }
+
         public async Task<OneOf<OrderResponse, BaseError>> GetByIdAsync(Guid id)
         {
             try
@@ -84,6 +101,21 @@ namespace PRN232.Lab2.CoffeeStore.Services.Services
                 if (order == null)
                     return (BaseError)"Order not found";
                 return _mapper.Map<OrderResponse>(order);
+            }
+            catch (Exception ex)
+            {
+                return (BaseError)ex.Message;
+            }
+        }
+
+        public async Task<OneOf<IEnumerable<OrderDetailResponse>, BaseError>> GetOrderDetailByOrderIdAsync(Guid orderId)
+        {
+            try
+            {
+                var orders = await _unitOfWork.Orders.GetByIdAsync(o => o.OrderId == orderId, include: o => o.Include(o => o.OrderDetails));
+                if (orders == null)
+                    return (BaseError)"Order not found";
+                return _mapper.Map<IEnumerable<OrderDetailResponse>>(orders.OrderDetails.ToList()).ToList();
             }
             catch (Exception ex)
             {

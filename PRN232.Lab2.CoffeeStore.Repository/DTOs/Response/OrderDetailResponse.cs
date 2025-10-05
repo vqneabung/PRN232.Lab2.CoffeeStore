@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PRN232.Lab2.CoffeeStore.Repositories.DTOs.Response
 {
-    public class OrderDetailReponse
+    public class OrderDetailResponse
     {
         public int OrderDetailId { get; set; }
 

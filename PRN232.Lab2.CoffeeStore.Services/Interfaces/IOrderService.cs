@@ -16,6 +16,8 @@ namespace PRN232.Lab2.CoffeeStore.Services.Interfaces
     {
         Task<OneOf<PagedResponse<OrderResponse>, BaseError>> GetAllAsync(PagedAndSortedRequest pagedAndSortedRequest);
         Task<OneOf<OrderResponse, BaseError>> GetByIdAsync(Guid id);
+        Task<OneOf<IEnumerable<OrderResponse>, BaseError>> GetAllOrdersByUserIdAsync(Guid userId);
+        Task<OneOf<OrderDetailResponse, BaseError>> GetOrderDetailByOrderIdAsync(Guid orderId);
         Task<OneOf<bool, BaseError>> CreateAsync(CreateOrderRequest request);
         Task<OneOf<bool, BaseError>> DeleteAsync(Guid id);
     }

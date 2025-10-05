@@ -144,15 +144,15 @@ public partial class CoffeeStoreDB2Context : IdentityDbContext<User, IdentityRol
                 new IdentityRole<Guid>
                 {
                     Id = Guid.Parse("51ef7e08-ff07-459b-8c55-c7ebac505103"),
-                    Name = "teacher",
-                    NormalizedName = "TEACHER",
+                    Name = "STAFF",
+                    NormalizedName = "STAFF",
                     ConcurrencyStamp = "seed-2"
                 },
                 new IdentityRole<Guid>
                 {
                     Id = Guid.Parse("37a7c5df-4898-4fd4-8e5f-d2abd4b57520"),
-                    Name = "parent",
-                    NormalizedName = "PARENT",
+                    Name = "USER",
+                    NormalizedName = "USER",
                     ConcurrencyStamp = "seed-3"
                 }
             };
