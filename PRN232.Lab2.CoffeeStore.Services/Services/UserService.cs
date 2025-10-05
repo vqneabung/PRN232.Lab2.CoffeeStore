@@ -32,7 +32,8 @@ namespace PRN232.Lab2.CoffeeStore.Services.Services
 
             try
             {
-                _unitOfWork.Users.Remove(user);
+                user.IsActive = false;
+                _unitOfWork.Users.Update(user);
                 await _unitOfWork.Users.SaveChangesAsync();
                 return true;
             }

@@ -46,7 +46,8 @@ namespace PRN232.Lab2.CoffeeStore.Services.Services
                 return (BaseError)"Order not found";
             try
             {
-                _unitOfWork.Orders.Remove(order);
+                order.IsActive = false; 
+                _unitOfWork.Orders.Update(order);
                 await _unitOfWork.Orders.SaveChangesAsync();
                 return true;
             }

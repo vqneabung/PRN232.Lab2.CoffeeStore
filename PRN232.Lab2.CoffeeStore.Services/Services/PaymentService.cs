@@ -52,7 +52,8 @@ namespace PRN232.Lab2.CoffeeStore.Services.Services
                 return (BaseError)"Payment not found";
             try
             {
-                _unitOfWork.Payments.Remove(payment);
+                payment.IsActive = false;
+                _unitOfWork.Payments.Update(payment);
                 await _unitOfWork.Payments.SaveChangesAsync();
                 return true;
             }

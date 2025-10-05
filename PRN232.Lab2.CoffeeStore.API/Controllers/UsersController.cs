@@ -29,7 +29,25 @@ namespace PRN232.Lab2.CoffeeStore.API.Controllers
                 error => BadRequest(error)
             );
         }
+        
+        [HttpGet("{id}")]
+        public async Task<BaseActionResult<UserResponse>> GetById(Guid id)
+        {
+            var result = await _userService.GetById(id);
+            return result.Match(
+                user => Ok(user),
+                error => BadRequest(error)
+            );
+        }
 
-
+        [HttpDelete("{id}")]
+        public async Task<BaseActionResult<bool>> Delete(Guid id)
+        {
+            var result = await _userService.Delete(id);
+            return result.Match(
+                success => Ok(success),
+                error => BadRequest(error)
+            );
+        }
     }
 }

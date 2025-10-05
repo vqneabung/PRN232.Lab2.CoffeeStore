@@ -52,7 +52,8 @@ namespace PRN232.Lab2.CoffeeStore.Services.Services
                 return (BaseError)"Product not found";
             try
             {
-                _unitOfWork.Products.Remove(product);
+                product.IsActive = false;
+                _unitOfWork.Products.Update(product);
                 await _unitOfWork.Products.SaveChangesAsync();
                 return true;
             }
