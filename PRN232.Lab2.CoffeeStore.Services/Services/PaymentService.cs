@@ -43,6 +43,7 @@ namespace PRN232.Lab2.CoffeeStore.Services.Services
             {
                 return (BaseError)ex.Message;
             }
+        }
 
         public async Task<OneOf<bool, BaseError>> DeleteAsync(Guid id)
         {

@@ -43,6 +43,9 @@ namespace PRN232.Lab2.CoffeeStore.Services.MapperProfile
                 .ForMember(dest => dest.OrderId, opt => opt.MapFrom(src => src.OrderId))
                 .ForMember(dest => dest.PaymentDate, opt => opt.MapFrom(src => src.PaymentDate))
                 .ForMember(dest => dest.IsActive, opt => opt.MapFrom(src => src.IsActive));
+
+            CreateMap<User, UserResponse>()
+                .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.Id));
         }
 
         private void CreateDtoToEntityMappings()
@@ -92,6 +95,9 @@ namespace PRN232.Lab2.CoffeeStore.Services.MapperProfile
                 .ForMember(dest => dest.Orders, opt => opt.Ignore())
                 .ForMember(dest => dest.PaymentDate, opt => opt.MapFrom(src => DateTime.UtcNow))
                 .ForMember(dest => dest.IsActive, opt => opt.MapFrom(src => true));
+
+            CreateMap<UserResponse, User>()
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.UserId));
         }
     }
 }

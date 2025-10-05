@@ -9,6 +9,7 @@ namespace PRN232.Lab2.CoffeeStore.Repositories.DTOs.Response
     public class UserResponse
     {
         public Guid UserId { get; set; }
+        public string? Username { get; set; }
         public string? RoleName { get; set; }
         public string? FullName { get; set; }
         public string? Email { get; set; }

@@ -2,10 +2,12 @@
 using EduConnect.API.Configurations;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
+using Microsoft.Extensions.DependencyInjection;
 using PRN232.Lab2.CoffeeStore.Repositories.Data;
 using PRN232.Lab2.CoffeeStore.Repositories.Interfaces;
 using PRN232.Lab2.CoffeeStore.Repositories.Repositories;
 using PRN232.Lab2.CoffeeStore.Services.Interfaces;
+using PRN232.Lab2.CoffeeStore.Services.MapperProfile;
 using PRN232.Lab2.CoffeeStore.Services.Services;
 
 namespace PRN232.Lab2.CoffeeStore.API.Extensions
@@ -38,6 +40,7 @@ namespace PRN232.Lab2.CoffeeStore.API.Extensions
 
             //Other
             services.AddJWTAuthenticationScheme(configuration);
+            services.AddAutoMapper(cfg => { }, typeof(MappingProfile));
 
 
 
