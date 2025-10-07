@@ -137,21 +137,21 @@ public partial class CoffeeStoreDB2Context : IdentityDbContext<User, IdentityRol
                 new IdentityRole<Guid>
                 {
                     Id = Guid.Parse("3631e38b-60dd-4d1a-af7f-a26f21c2ef82"),
-                    Name = "admin",
+                    Name = "Admin",
                     NormalizedName = "ADMIN",
                     ConcurrencyStamp = "seed-1"
                 },
                 new IdentityRole<Guid>
                 {
                     Id = Guid.Parse("51ef7e08-ff07-459b-8c55-c7ebac505103"),
-                    Name = "STAFF",
+                    Name = "Staff",
                     NormalizedName = "STAFF",
                     ConcurrencyStamp = "seed-2"
                 },
                 new IdentityRole<Guid>
                 {
                     Id = Guid.Parse("37a7c5df-4898-4fd4-8e5f-d2abd4b57520"),
-                    Name = "USER",
+                    Name = "User",
                     NormalizedName = "USER",
                     ConcurrencyStamp = "seed-3"
                 }

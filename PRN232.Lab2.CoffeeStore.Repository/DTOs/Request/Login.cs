@@ -6,6 +6,5 @@ namespace PRN232.Lab2.CoffeeStore.Repositories.DTOs.Request
 	{
 		public string Email { get; set; } = null!;
 		public string Password { get; set; } = null!;
-		public string? DeviceToken { get; set; } 
 	}
 }

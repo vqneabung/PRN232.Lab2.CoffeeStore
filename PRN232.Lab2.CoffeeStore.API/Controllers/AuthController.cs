@@ -1,8 +1,12 @@
-﻿using Common.Extensions;
+﻿using Common;
+using Common.Extensions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using PRN232.Lab2.CoffeeStore.Repositories.DTOs.Request;
 using PRN232.Lab2.CoffeeStore.Repositories.DTOs.Response;
+using PRN232.Lab2.CoffeeStore.Repositories.Entities;
 using PRN232.Lab2.CoffeeStore.Services.Interfaces;
 
 namespace PRN232.Lab2.CoffeeStore.API.Controllers
@@ -12,9 +16,14 @@ namespace PRN232.Lab2.CoffeeStore.API.Controllers
     public class AuthController : ControllerBaseWithBaseReponse
     {
         private readonly IAuthService _authService;
-        public AuthController(IAuthService authService)
+        private readonly UserManager<User> _userManager;
+        private readonly IUserService _userService;
+
+        public AuthController(IAuthService authService, UserManager<User> userManager, IUserService userService)
         {
             _authService = authService;
+            _userManager = userManager;
+            _userService = userService;
         }
 
         [HttpPost("login")]
@@ -47,5 +56,25 @@ namespace PRN232.Lab2.CoffeeStore.API.Controllers
             );
         }
 
+        [Authorize]
+        [HttpGet("current")]
+        public async Task<BaseActionResult<UserResponse>> GetCurrentUser()
+        {
+            var userEmail = User.Identity?.Name;
+            if (string.IsNullOrEmpty(userEmail))
+            {
+                return Unauthorized(new BaseError { Message = "User is not authenticated." });
+            }
+            var user = await _userManager.FindByEmailAsync(userEmail);
+            if (user == null)
+            {
+                return NotFound(new BaseError { Message = "User not found." });
+            }
+            var result = await _userService.GetById(user.Id);
+            return result.Match(
+                userResponse => Ok(userResponse),
+                error => BadRequest(error)
+            );
+        }
     }
 }

@@ -34,7 +34,7 @@ namespace PRN232.Lab2.CoffeeStore.Services.MapperProfile
                 .ForMember(dest => dest.PaymentId, opt => opt.MapFrom(src => src.PaymentId))
                 .ForMember(dest => dest.IsActive, opt => opt.MapFrom(src => src.IsActive));
 
-            CreateMap<OrderDetail, OrderDetailReponse>()
+            CreateMap<OrderDetail, OrderDetailResponse>()
                 .ForMember(dest => dest.OrderId, opt => opt.MapFrom(src => src.OrderId))
                 .ForMember(dest => dest.ProductId, opt => opt.MapFrom(src => src.ProductId))
                 .ForMember(dest => dest.IsActive, opt => opt.MapFrom(src => src.IsActive));

@@ -1,5 +1,6 @@
 ﻿using Common.DTOs.Request;
 using Common.Extensions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PRN232.Lab2.CoffeeStore.Repositories.DTOs.Request;
@@ -8,6 +9,7 @@ using PRN232.Lab2.CoffeeStore.Services.Interfaces;
 
 namespace PRN232.Lab2.CoffeeStore.API.Controllers
 {
+    [Authorize(Roles = "Admin")]
     [Route("api/[controller]")]
     [ApiController]
     public class CategoriesController : ControllerBaseWithBaseReponse

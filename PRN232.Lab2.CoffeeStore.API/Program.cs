@@ -1,3 +1,4 @@
+using Common.Middlewares;
 using DotNetEnv;
 using DotNetEnv.Configuration;
 using PRN232.Lab2.CoffeeStore.API.Extensions;
@@ -34,6 +35,8 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 app.MapControllers();
 

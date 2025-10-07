@@ -1,5 +1,6 @@
 ﻿using Common.DTOs.Request;
 using Common.Extensions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PRN232.Lab2.CoffeeStore.Repositories.DTOs.Response;
@@ -8,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace PRN232.Lab2.CoffeeStore.API.Controllers
 {
+    [Authorize (Roles = "Admin")]
     [Route("api/[controller]")]
     [ApiController]
     public class UsersController : ControllerBaseWithBaseReponse
