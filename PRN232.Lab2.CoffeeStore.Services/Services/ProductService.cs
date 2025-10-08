@@ -65,22 +65,6 @@ namespace PRN232.Lab2.CoffeeStore.Services.Services
             }
         }
 
-        public async Task<OneOf<IEnumerable<ProductResponse>, BaseError>> GetAlls(PagedAndSortedRequest pagedAndSortedRequest)
-        {
-            try
-            {
-                var (products, totalCount) = await _unitOfWork.Products.GetPagedAsync(
-                     pageNumber: pagedAndSortedRequest.PageNumber,
-                     pageSize: pagedAndSortedRequest.PageSize);
-                var productResponses = _mapper.Map<IEnumerable<ProductResponse>>(products);
-                return productResponses.ToList();
-            }
-            catch (Exception ex)
-            {
-                return (BaseError)ex.Message;
-            }
-        }
-
         public async Task<OneOf<ProductResponse, BaseError>> GetById(Guid id)
         {
             var product = await _unitOfWork.Products.GetByIdAsync(p => p.ProductId == id);
@@ -101,6 +85,25 @@ namespace PRN232.Lab2.CoffeeStore.Services.Services
         {
             var keyword = SplitHelper.SplitAndTrim(request.Search!, ',');
 
+            Expression<Func<Product, bool>> filter;
+            if (string.IsNullOrEmpty(request.Search))
+            {
+                filter = p => p.IsActive == true;
+            }
+            else
+            {
+                filter = p => p.IsActive == true && keyword.Any(k =>
+                    // Search by Product Name
+                    (p.Name != null && p.Name.Contains(k)) ||
+                    // Search by Description
+                    (p.Description != null && p.Description.Contains(k)) ||
+                    // Search by Category Name
+                    (p.Category != null && p.Category.Name != null && p.Category.Name.Contains(k)) ||
+                    // Search by Price (exact or contains)
+                    p.Price.ToString().Contains(k)
+                );
+            }
+
             try
             {
                 var (products, totalCount) = await _unitOfWork.Products.GetPagedAsync(
@@ -108,16 +111,7 @@ namespace PRN232.Lab2.CoffeeStore.Services.Services
                     pageSize: request.PageSize,
                     asNoTracking: true,
                     include: query => query.Include(p => p.Category),
-                    filter: p => p.IsActive == true && keyword.Any(k =>
-                        // Search by Product Name
-                        (p.Name != null && p.Name.Contains(k)) ||
-                        // Search by Description
-                        (p.Description != null && p.Description.Contains(k)) ||
-                        // Search by Category Name
-                        (p.Category != null && p.Category.Name != null && p.Category.Name.Contains(k)) ||
-                        // Search by Price (exact or contains)
-                        p.Price.ToString().Contains(k)
-                    )
+                    filter: filter
                 );
                 
                 var productResponses = _mapper.Map<IEnumerable<ProductResponse>>(products);

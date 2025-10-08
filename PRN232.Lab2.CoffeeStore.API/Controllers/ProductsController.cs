@@ -21,7 +21,7 @@ namespace PRN232.Lab2.CoffeeStore.API.Controllers
         }
 
         [HttpGet]
-        public async Task<BaseActionResult<IEnumerable<ProductResponse>>> GetPagedAsync(SearchPagedSortedRequest request)
+        public async Task<BaseActionResult<IEnumerable<ProductResponse>>> GetPagedAsync([FromQuery] SearchPagedSortedRequest request)
         {
             var result = await _productService.GetPagedAsync(request);
             return result.Match(

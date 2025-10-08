@@ -27,7 +27,7 @@ namespace PRN232.Lab2.CoffeeStore.API.Controllers
 
         [Authorize (Roles = "Admin")]
         [HttpGet("user/{userId}")]
-        public async Task<BaseActionResult<IEnumerable<OrderResponse>>> GetOrdersByUserId(Guid userId, [FromBody] SearchPagedSortedRequest request)
+        public async Task<BaseActionResult<IEnumerable<OrderResponse>>> GetOrdersByUserId(Guid userId, [FromQuery] SearchPagedSortedRequest request)
         {
 
             var orders = await _orderService.GetAllOrdersByUserIdAsync(userId, request);
@@ -39,7 +39,7 @@ namespace PRN232.Lab2.CoffeeStore.API.Controllers
 
         [Authorize(Roles = "User, Admin")]
         [HttpGet("user/current")]
-        public async Task<BaseActionResult<IEnumerable<OrderResponse>>> GetOrdersByCurrentUser([FromBody] SearchPagedSortedRequest request)
+        public async Task<BaseActionResult<IEnumerable<OrderResponse>>> GetOrdersByCurrentUser([FromQuery] SearchPagedSortedRequest request)
         {
             var userId = User.Identities.FirstOrDefault()?.Claims.FirstOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
             if (string.IsNullOrEmpty(userId))
