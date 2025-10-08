@@ -19,13 +19,15 @@ namespace PRN232.Lab2.CoffeeStore.Services.Services
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly UserManager<User> _userManager;
+        private readonly SignInManager<User> _signInManager;
         private readonly IMapper _mapper;
 
-        public AuthService(IUnitOfWork unitOfWork, UserManager<User> userManager, IMapper mapper)
+        public AuthService(IUnitOfWork unitOfWork, UserManager<User> userManager, IMapper mapper, SignInManager<User> signInManager)
         {
             _unitOfWork = unitOfWork;
             _userManager = userManager;
             _mapper = mapper;
+            _signInManager = signInManager;
         }
 
         public async Task<OneOf<TokenResponse, BaseError>> LoginAsync(Login login)
@@ -36,6 +38,10 @@ namespace PRN232.Lab2.CoffeeStore.Services.Services
 
             if (!user.IsActive)
                 return (BaseError)"User is inactive";
+
+            var isPasswordValid = await _signInManager.CheckPasswordSignInAsync(user, login.Password!, false);
+            if (!isPasswordValid.Succeeded)
+                return (BaseError)"Invalid password";
 
             var tokenResponse = await GenerateTokenResponseAsync(user);
             return tokenResponse;

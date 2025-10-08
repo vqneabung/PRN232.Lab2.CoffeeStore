@@ -60,12 +60,12 @@ namespace PRN232.Lab2.CoffeeStore.API.Controllers
         [HttpGet("current")]
         public async Task<BaseActionResult<UserResponse>> GetCurrentUser()
         {
-            var userEmail = User.Identity?.Name;
-            if (string.IsNullOrEmpty(userEmail))
+            var userId = User.Identities.FirstOrDefault()?.Claims.FirstOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrEmpty(userId))
             {
                 return Unauthorized(new BaseError { Message = "User is not authenticated." });
             }
-            var user = await _userManager.FindByEmailAsync(userEmail);
+            var user = await _userManager.FindByIdAsync(userId);
             if (user == null)
             {
                 return NotFound(new BaseError { Message = "User not found." });

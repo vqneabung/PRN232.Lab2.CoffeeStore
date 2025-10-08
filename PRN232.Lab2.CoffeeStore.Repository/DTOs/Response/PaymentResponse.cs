@@ -8,9 +8,9 @@ namespace PRN232.Lab2.CoffeeStore.Repositories.DTOs.Response
 {
     public class PaymentResponse
     {
-        public int PaymentId { get; set; }
+        public Guid PaymentId { get; set; }
 
-        public int? OrderId { get; set; }
+        public Guid? OrderId { get; set; }
 
         public decimal Amount { get; set; }
 
@@ -19,5 +19,6 @@ namespace PRN232.Lab2.CoffeeStore.Repositories.DTOs.Response
         public string? PaymentMethod { get; set; }
 
         public bool? IsActive { get; set; } = true;
+
     }
 }

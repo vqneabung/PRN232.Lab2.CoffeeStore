@@ -12,6 +12,5 @@ namespace PRN232.Lab2.CoffeeStore.Repositories.DTOs.Request
 
 		public string Password { get; set; } = string.Empty;
 
-		public string? ClientUri { get; set; } //https://localhost:7299/api/auth/verify-email
 	}
 }

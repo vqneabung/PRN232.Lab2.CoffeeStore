@@ -31,33 +31,42 @@ namespace PRN232.Lab2.CoffeeStore.API.Controllers
         {
 
             var orders = await _orderService.GetAllOrdersByUserIdAsync(userId, request);
-            return Ok(orders);
+            return orders.Match(
+                success => Ok(success),
+                error => BadRequest(error)
+            );
         }
 
         [Authorize(Roles = "User, Admin")]
         [HttpGet("user/current")]
         public async Task<BaseActionResult<IEnumerable<OrderResponse>>> GetOrdersByCurrentUser([FromBody] SearchPagedSortedRequest request)
         {
-            var userEmail = User.Identity?.Name;
-            if (string.IsNullOrEmpty(userEmail))
+            var userId = User.Identities.FirstOrDefault()?.Claims.FirstOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrEmpty(userId))
             {
                 return Unauthorized(new BaseError { Message = "User is not authenticated." });
             }
-            var user = await _userManager.FindByEmailAsync(userEmail);
+            var user = await _userManager.FindByIdAsync(userId);
             if (user == null)
             {
                 return NotFound(new BaseError { Message = "User not found." });
             }
             var orders = await _orderService.GetAllOrdersByUserIdAsync(user.Id, request);
-            return Ok(orders);
+            return orders.Match(
+                success => Ok(success),
+                error => BadRequest(error)
+            );
         }
 
         [Authorize (Roles = "Admin")]
         [HttpGet]
-        public async Task<BaseActionResult<IEnumerable<OrderResponse>>> GetAllOrders(SearchPagedSortedRequest request)
+        public async Task<BaseActionResult<IEnumerable<OrderResponse>>> GetPagedAsync(SearchPagedSortedRequest request)
         {
             var orders = await _orderService.GetPagedAsync(request);
-            return Ok(orders);
+            return orders.Match(
+                success => Ok(success),
+                error => BadRequest(error)
+            );
         }
 
         [Authorize(Roles = "User")]
@@ -65,7 +74,10 @@ namespace PRN232.Lab2.CoffeeStore.API.Controllers
         public async Task<BaseActionResult<IEnumerable<OrderDetailResponse>>> GetOrderDetailById(Guid orderId)
         {
             var orderDetails = await _orderService.GetOrderDetailByOrderIdAsync(orderId);
-            return Ok(orderDetails);
+            return orderDetails.Match(
+                success => Ok(success),
+                error => BadRequest(error)
+            );
         }
 
         [Authorize (Roles = "Admin,User")]
@@ -73,7 +85,10 @@ namespace PRN232.Lab2.CoffeeStore.API.Controllers
         public async Task<BaseActionResult<OrderResponse>> GetById(Guid id)
         {
             var order = await _orderService.GetByIdAsync(id);
-            return Ok(order);
+            return order.Match(
+                success => Ok(success),
+                error => BadRequest(error)
+            );
         }
 
         [Authorize(Roles = "User")]

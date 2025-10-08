@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Common;
 using Common.DTOs.Request;
+using Common.Extensions;
 using Common.Utils;
 using Microsoft.EntityFrameworkCore;
 using OneOf;
@@ -83,13 +84,25 @@ namespace PRN232.Lab2.CoffeeStore.Services.Services
 
             try
             {
+                Expression<Func<Order, bool>> filter;
+
+                if (string.IsNullOrEmpty(request.Search))
+                {
+                    filter = o => o.IsActive == true;
+                }
+                else
+                {
+                    filter = o => o.IsActive == true &&
+                                 (keyword.Any(k => o.User.UserName!.Contains(k) || o.Status.Contains(k)) ||
+                                  (date.HasValue && o.OrderDate.HasValue && o.OrderDate.Value.Date == date.Value.Date));
+                }
+
                 var (orders, totalCount) = await _unitOfWork.Orders.GetPagedAsync(
                   pageNumber: request.PageNumber,
                   pageSize: request.PageSize,
                   asNoTracking: true,
                   include: o => o.Include(o => o.User),
-                  filter: o => o.UserId == userId && keyword.Any(k => o.User.UserName!.ToString().Contains(k) ||
-                                                (date.HasValue && o.OrderDate.HasValue && o.OrderDate.Value.Date == date.Value.Date) || o.Status.Contains(k) || o.IsActive.ToString()!.ToLower().Contains(k.ToLower()))
+                  filter: filter
                 );
                 var orderResponses = _mapper.Map<IEnumerable<OrderResponse>>(orders);
                 return PagedResponse<OrderResponse>.Response(orderResponses.ToList(), totalCount, request.PageNumber, request.PageSize);
@@ -147,14 +160,28 @@ namespace PRN232.Lab2.CoffeeStore.Services.Services
 
             try
             {
+                Expression<Func<Order, bool>> filter;
+                
+                if (string.IsNullOrEmpty(request.Search))
+                {
+                    filter = o => o.IsActive == true;
+                }
+                else
+                {
+                    filter = o => o.IsActive == true && 
+                                 (keyword.Any(k => o.User.UserName!.Contains(k) || o.Status.Contains(k)) ||
+                                  (date.HasValue && o.OrderDate.HasValue && o.OrderDate.Value.Date == date.Value.Date));
+                }
+
                 var (orders, totalCount) = await _unitOfWork.Orders.GetPagedAsync(
                   pageNumber: request.PageNumber,
                   pageSize: request.PageSize,
                   asNoTracking: true,
+                  orderBy: o => o.ApplySorting(request.SortBy, request.SortDescending),
                   include: o => o.Include(o => o.User),
-                  filter: o => keyword.Any(k => o.User.UserName!.ToString().Contains(k) ||
-                                                (date.HasValue && o.OrderDate.HasValue && o.OrderDate.Value.Date == date.Value.Date) || o.Status.Contains(k) || o.IsActive == true)
+                  filter: filter
                 );
+                
                 var orderResponses = _mapper.Map<IEnumerable<OrderResponse>>(orders);
                 return PagedResponse<OrderResponse>.Response(orderResponses.ToList(), totalCount, request.PageNumber, request.PageSize);
             }
