@@ -1,6 +1,7 @@
 using Common.Middlewares;
 using DotNetEnv;
 using DotNetEnv.Configuration;
+using Microsoft.Extensions.Configuration;
 using PRN232.Lab2.CoffeeStore.API.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -17,6 +18,7 @@ if (builder.Environment.IsDevelopment())
 builder.Services.AddSwaggerGen();
 builder.Services.AddRouting(options => options.LowercaseUrls = true);
 builder.Services.AddInfrastructureServices(builder.Configuration);
+builder.Services.AddJWTAuthenticationScheme(builder.Configuration);
 
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
@@ -34,9 +36,11 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseAuthorization();
-
 app.UseMiddleware<ExceptionHandlingMiddleware>();
+
+app.UseAuthentication();
+
+app.UseAuthorization();
 
 app.MapControllers();
 

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PRN232.Lab2.CoffeeStore.Repositories.Data;
 
@@ -11,9 +12,11 @@ using PRN232.Lab2.CoffeeStore.Repositories.Data;
 namespace PRN232.Lab2.CoffeeStore.Repositories.Migrations
 {
     [DbContext(typeof(CoffeeStoreDB2Context))]
-    partial class CoffeeStoreDB2ContextModelSnapshot : ModelSnapshot
+    [Migration("20251008085656_DB")]
+    partial class DB
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -170,11 +173,6 @@ namespace PRN232.Lab2.CoffeeStore.Repositories.Migrations
                         new
                         {
                             UserId = new Guid("fe014130-bfb5-443b-9989-9c8f90d1065f"),
-                            RoleId = new Guid("37a7c5df-4898-4fd4-8e5f-d2abd4b57520")
-                        },
-                        new
-                        {
-                            UserId = new Guid("fcd27e3f-37ec-4e9b-96bf-eca690d172cc"),
                             RoleId = new Guid("37a7c5df-4898-4fd4-8e5f-d2abd4b57520")
                         });
                 });
@@ -464,10 +462,10 @@ namespace PRN232.Lab2.CoffeeStore.Repositories.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@EXAMPLE.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAIAAYagAAAAECnij7OrGcp+6UHBNopqg/aTikdolYJDGIlxJJD4dyO5xp8gM/9/BNMxTTHG48NQew==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEAMX5EBQUVj9D36pj/G7j7jN/vE72ubxLrHzDkuR6kINGT7cJLLPSaf7ItfHD53Y6g==",
                             PhoneNumberConfirmed = false,
                             RefreshToken = "",
-                            RefreshTokenExpiryTime = new DateTime(2025, 10, 15, 9, 0, 21, 233, DateTimeKind.Utc).AddTicks(9569),
+                            RefreshTokenExpiryTime = new DateTime(2025, 10, 15, 8, 56, 55, 393, DateTimeKind.Utc).AddTicks(9765),
                             SecurityStamp = "seed-4",
                             TwoFactorEnabled = false,
                             UserName = "admin"
@@ -484,10 +482,10 @@ namespace PRN232.Lab2.CoffeeStore.Repositories.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "STAFF@EXAMPLE.COM",
                             NormalizedUserName = "STAFF",
-                            PasswordHash = "AQAAAAIAAYagAAAAEAQNyh+mFoFlXm2mk3PxvRrpZlYhqlEr677x5cEChlIY8wA+/thn1668Bej70z9TlQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEL1CRCfaq7wd33KU5ee6h7rEO+fnUumv/D75W9UThA/qYTy9HAxuVKjSxE4GG0s17w==",
                             PhoneNumberConfirmed = false,
                             RefreshToken = "",
-                            RefreshTokenExpiryTime = new DateTime(2025, 10, 15, 9, 0, 21, 296, DateTimeKind.Utc).AddTicks(9114),
+                            RefreshTokenExpiryTime = new DateTime(2025, 10, 15, 8, 56, 55, 458, DateTimeKind.Utc).AddTicks(3727),
                             SecurityStamp = "seed-6",
                             TwoFactorEnabled = false,
                             UserName = "staff"
@@ -504,53 +502,13 @@ namespace PRN232.Lab2.CoffeeStore.Repositories.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "USER@EXAMPLE.COM",
                             NormalizedUserName = "USER",
-                            PasswordHash = "AQAAAAIAAYagAAAAEEF4BFjbZh6PyZERt9PgmXu6A1/ZNoggZByBKrYPnbrWd4YD1Ydlys1MZ+a5l7nPpg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEB5PHEn5K6ymFwlqZFN5Yb+LjYz4HKfpQwuHTyYWpswXz+HeUnjHD879m74Pv4bxWw==",
                             PhoneNumberConfirmed = false,
                             RefreshToken = "",
-                            RefreshTokenExpiryTime = new DateTime(2025, 10, 15, 9, 0, 21, 358, DateTimeKind.Utc).AddTicks(4934),
+                            RefreshTokenExpiryTime = new DateTime(2025, 10, 15, 8, 56, 55, 519, DateTimeKind.Utc).AddTicks(5322),
                             SecurityStamp = "seed-8",
                             TwoFactorEnabled = false,
                             UserName = "user"
-                        },
-                        new
-                        {
-                            Id = new Guid("fcd27e3f-37ec-4e9b-96bf-eca690d172cc"),
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "seed-9",
-                            Email = "user2@example.com",
-                            EmailConfirmed = true,
-                            FullName = "",
-                            IsActive = true,
-                            LockoutEnabled = false,
-                            NormalizedEmail = "USER2@EXAMPLE.COM",
-                            NormalizedUserName = "USER2",
-                            PasswordHash = "AQAAAAIAAYagAAAAEEswEY1LNQPahkTX4rK/yxTh/99NSZXtxJvWTfPIfA2y7F4Izwyf0UUYhhTsJxiCvw==",
-                            PhoneNumberConfirmed = false,
-                            RefreshToken = "",
-                            RefreshTokenExpiryTime = new DateTime(2025, 10, 15, 9, 0, 21, 420, DateTimeKind.Utc).AddTicks(2373),
-                            SecurityStamp = "seed-8",
-                            TwoFactorEnabled = false,
-                            UserName = "user2"
-                        },
-                        new
-                        {
-                            Id = new Guid("df1a8683-c075-49ca-af63-095b3a491d04"),
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "seed-9",
-                            Email = "user3@example.com",
-                            EmailConfirmed = true,
-                            FullName = "",
-                            IsActive = true,
-                            LockoutEnabled = false,
-                            NormalizedEmail = "USER3@EXAMPLE.COM",
-                            NormalizedUserName = "USER3",
-                            PasswordHash = "AQAAAAIAAYagAAAAEEf9vRx5x8PL0LGQlZuy+cMiojeNI+4jNTFuqmJ0bINXJd0FAk1slLbFm1ZC0WKaAg==",
-                            PhoneNumberConfirmed = false,
-                            RefreshToken = "",
-                            RefreshTokenExpiryTime = new DateTime(2025, 10, 15, 9, 0, 21, 480, DateTimeKind.Utc).AddTicks(7495),
-                            SecurityStamp = "seed-8",
-                            TwoFactorEnabled = false,
-                            UserName = "user3"
                         });
                 });
 

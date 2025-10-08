@@ -12,7 +12,6 @@ using PRN232.Lab2.CoffeeStore.Services.Interfaces;
 
 namespace PRN232.Lab2.CoffeeStore.API.Controllers
 {
-    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class OrdersController : ControllerBaseWithBaseReponse
@@ -35,7 +34,7 @@ namespace PRN232.Lab2.CoffeeStore.API.Controllers
             return Ok(orders);
         }
 
-        [Authorize(Roles = "User")]
+        [Authorize(Roles = "User, Admin")]
         [HttpGet("user/current")]
         public async Task<BaseActionResult<IEnumerable<OrderResponse>>> GetOrdersByCurrentUser([FromBody] SearchPagedSortedRequest request)
         {

@@ -2,7 +2,7 @@
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
-namespace EduConnect.API.Configurations
+namespace PRN232.Lab2.CoffeeStore.API.Extensions
 {
 	public static class JwtSettings
 	{

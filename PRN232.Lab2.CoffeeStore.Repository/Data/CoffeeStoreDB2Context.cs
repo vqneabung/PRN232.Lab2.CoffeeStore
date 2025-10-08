@@ -175,33 +175,59 @@ public partial class CoffeeStoreDB2Context : IdentityDbContext<User, IdentityRol
             PasswordHash = hasher.HashPassword(null!, "12345aA@")
         };
 
-        var teacher = new User
+        var staff = new User
         {
             Id = Guid.Parse("09097277-2705-40c2-bce5-51dbd1f4c1e6"),
-            UserName = "teacher",
-            NormalizedUserName = "TEACHER",
-            Email = "teacher@example.com",
-            NormalizedEmail = "TEACHER@EXAMPLE.COM",
+            UserName = "staff",
+            NormalizedUserName = "STAFF",
+            Email = "staff@example.com",
+            NormalizedEmail = "STAFF@EXAMPLE.COM",
             EmailConfirmed = true,
             SecurityStamp = "seed-6",
             ConcurrencyStamp = "seed-7",
             PasswordHash = hasher.HashPassword(null!, "12345aA@")
         };
 
-        var parent = new User
+        var user = new User
         {
             Id = Guid.Parse("fe014130-bfb5-443b-9989-9c8f90d1065f"),
-            UserName = "parent",
-            NormalizedUserName = "PARENT",
-            Email = "parent@example.com",
-            NormalizedEmail = "PARENT@EXAMPLE.COM",
+            UserName = "user",
+            NormalizedUserName = "USER",
+            Email = "user@example.com",
+            NormalizedEmail = "USER@EXAMPLE.COM",
             EmailConfirmed = true,
             SecurityStamp = "seed-8",
             ConcurrencyStamp = "seed-9",
             PasswordHash = hasher.HashPassword(null!, "12345aA@")
         };
 
-        return new List<User> { admin, teacher, parent };
+        var user2 = new User
+        {
+            Id = Guid.Parse("fcd27e3f-37ec-4e9b-96bf-eca690d172cc"),
+            UserName = "user2",
+            NormalizedUserName = "USER2",
+            Email = "user2@example.com",
+            NormalizedEmail = "USER2@EXAMPLE.COM",
+            EmailConfirmed = true,
+            SecurityStamp = "seed-8",
+            ConcurrencyStamp = "seed-9",
+            PasswordHash = hasher.HashPassword(null!, "12345aA@")
+        };
+
+        var user3 = new User
+        {
+            Id = Guid.Parse("df1a8683-c075-49ca-af63-095b3a491d04"),
+            UserName = "user3",
+            NormalizedUserName = "USER3",
+            Email = "user3@example.com",
+            NormalizedEmail = "USER3@EXAMPLE.COM",
+            EmailConfirmed = true,
+            SecurityStamp = "seed-8",
+            ConcurrencyStamp = "seed-9",
+            PasswordHash = hasher.HashPassword(null!, "12345aA@")
+        };
+
+        return new List<User> { admin, staff, user, user2, user3 };
     }
 
     private ICollection<IdentityUserRole<Guid>> SeedingUserRoles()
@@ -222,7 +248,12 @@ public partial class CoffeeStoreDB2Context : IdentityDbContext<User, IdentityRol
                 {
                     UserId = Guid.Parse("fe014130-bfb5-443b-9989-9c8f90d1065f"),
                     RoleId = Guid.Parse("37a7c5df-4898-4fd4-8e5f-d2abd4b57520")
-                }
+                },
+                new IdentityUserRole<Guid>
+                {
+                    UserId = Guid.Parse("fcd27e3f-37ec-4e9b-96bf-eca690d172cc"),
+                    RoleId = Guid.Parse("37a7c5df-4898-4fd4-8e5f-d2abd4b57520")
+                },
             };
     }
 

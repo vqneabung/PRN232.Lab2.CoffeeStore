@@ -1,5 +1,4 @@
 ﻿using Common.Repository;
-using EduConnect.API.Configurations;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
@@ -57,7 +56,6 @@ namespace PRN232.Lab2.CoffeeStore.API.Extensions
             services.AddScoped<IPaymentService, PaymentService>();
 
             //Other
-            services.AddJWTAuthenticationScheme(configuration);
             services.AddAutoMapper(cfg => { }, typeof(MappingProfile));
 
 
