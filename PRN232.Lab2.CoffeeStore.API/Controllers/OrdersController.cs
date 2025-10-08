@@ -28,16 +28,16 @@ namespace PRN232.Lab2.CoffeeStore.API.Controllers
 
         [Authorize (Roles = "Admin")]
         [HttpGet("user/{userId}")]
-        public async Task<BaseActionResult<IEnumerable<OrderResponse>>> GetOrdersByUserId(Guid userId)
+        public async Task<BaseActionResult<IEnumerable<OrderResponse>>> GetOrdersByUserId(Guid userId, [FromBody] SearchPagedSortedRequest request)
         {
-          
-            var orders = await _orderService.GetAllOrdersByUserIdAsync(userId);
+
+            var orders = await _orderService.GetAllOrdersByUserIdAsync(userId, request);
             return Ok(orders);
         }
 
         [Authorize(Roles = "User")]
         [HttpGet("user/current")]
-        public async Task<BaseActionResult<IEnumerable<OrderResponse>>> GetOrdersByCurrentUser()
+        public async Task<BaseActionResult<IEnumerable<OrderResponse>>> GetOrdersByCurrentUser([FromBody] SearchPagedSortedRequest request)
         {
             var userEmail = User.Identity?.Name;
             if (string.IsNullOrEmpty(userEmail))
@@ -49,15 +49,15 @@ namespace PRN232.Lab2.CoffeeStore.API.Controllers
             {
                 return NotFound(new BaseError { Message = "User not found." });
             }
-            var orders = await _orderService.GetAllOrdersByUserIdAsync(user.Id);
+            var orders = await _orderService.GetAllOrdersByUserIdAsync(user.Id, request);
             return Ok(orders);
         }
 
         [Authorize (Roles = "Admin")]
         [HttpGet]
-        public async Task<BaseActionResult<IEnumerable<OrderResponse>>> GetAllOrders(PagedAndSortedRequest request)
+        public async Task<BaseActionResult<IEnumerable<OrderResponse>>> GetAllOrders(SearchPagedSortedRequest request)
         {
-            var orders = await _orderService.GetAllAsync(request);
+            var orders = await _orderService.GetPagedAsync(request);
             return Ok(orders);
         }
 

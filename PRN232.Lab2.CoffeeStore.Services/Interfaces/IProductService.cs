@@ -13,7 +13,7 @@ namespace PRN232.Lab2.CoffeeStore.Services.Interfaces
 {
     public interface IProductService
     {
-        Task<OneOf<IEnumerable<ProductResponse>, BaseError>> GetAlls(PagedAndSortedRequest pagedAndSortedRequest);
+        Task<OneOf<IEnumerable<ProductResponse>, BaseError>> GetPagedAsync(SearchPagedSortedRequest request);
 
         Task<OneOf<ProductResponse, BaseError>> GetById(Guid id);
 

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Common;
 using Common.DTOs.Request;
+using Common.Utils;
 using Microsoft.EntityFrameworkCore;
 using OneOf;
 using PRN232.Lab2.CoffeeStore.Repositories.DTOs.Request;
@@ -24,6 +25,12 @@ namespace PRN232.Lab2.CoffeeStore.Services.Services
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+
+        public OrderService(IUnitOfWork unitOfWork, IMapper mapper)
+        {
+            _unitOfWork = unitOfWork;
+            _mapper = mapper;
+        }
 
         public async Task<OneOf<bool, BaseError>> CreateAsync(CreateOrderRequest request)
         {
@@ -59,37 +66,37 @@ namespace PRN232.Lab2.CoffeeStore.Services.Services
             }
         }
 
-        public async Task<OneOf<PagedResponse<OrderResponse>, BaseError>> GetAllAsync(PagedAndSortedRequest pagedAndSortedRequest)
+        public async Task<OneOf<PagedResponse<OrderResponse>, BaseError>> GetAllOrdersByUserIdAsync(Guid userId, SearchPagedSortedRequest request)
         {
+            var keyword = SplitHelper.SplitAndTrim(request.Search!, ',');
+
+            //if has date 
+            DateTime? date = null;
+            foreach (var k in keyword)
+            {
+                if (DateTime.TryParse(k, out var parsedDate))
+                {
+                    date = parsedDate;
+                    break;
+                }
+            }
+
             try
             {
                 var (orders, totalCount) = await _unitOfWork.Orders.GetPagedAsync(
-                  pageNumber: pagedAndSortedRequest.PageNumber,
-                  pageSize: pagedAndSortedRequest.PageSize,
-                  asNoTracking: true
+                  pageNumber: request.PageNumber,
+                  pageSize: request.PageSize,
+                  asNoTracking: true,
+                  include: o => o.Include(o => o.User),
+                  filter: o => o.UserId == userId && keyword.Any(k => o.User.UserName!.ToString().Contains(k) ||
+                                                (date.HasValue && o.OrderDate.HasValue && o.OrderDate.Value.Date == date.Value.Date) || o.Status.Contains(k) || o.IsActive.ToString()!.ToLower().Contains(k.ToLower()))
                 );
                 var orderResponses = _mapper.Map<IEnumerable<OrderResponse>>(orders);
-                return PagedResponse<OrderResponse>.Ok(orderResponses.ToList(), totalCount, pagedAndSortedRequest.PageNumber, pagedAndSortedRequest.PageSize);
+                return PagedResponse<OrderResponse>.Response(orderResponses.ToList(), totalCount, request.PageNumber, request.PageSize);
             }
             catch (Exception ex)
             {
                 return (BaseError)ex.Message;
-            }
-        }
-
-        public async Task<OneOf<IEnumerable<OrderResponse>, BaseError>> GetAllOrdersByUserIdAsync(Guid userId)
-        {
-            try
-            {
-                var orders = await _unitOfWork.Orders.GetAllAsync(o => o.UserId == userId);
-                var orderResponses = _mapper.Map<IEnumerable<OrderResponse>>(orders);
-                return orderResponses.ToList();
-            }
-            catch (Exception ex)
-            {
-                return (BaseError)ex.Message;
-
-
             }
         }
 
@@ -116,6 +123,40 @@ namespace PRN232.Lab2.CoffeeStore.Services.Services
                 if (orders == null)
                     return (BaseError)"Order not found";
                 return _mapper.Map<IEnumerable<OrderDetailResponse>>(orders.OrderDetails.ToList()).ToList();
+            }
+            catch (Exception ex)
+            {
+                return (BaseError)ex.Message;
+            }
+        }
+
+        public async Task<OneOf<PagedResponse<OrderResponse>, BaseError>> GetPagedAsync(SearchPagedSortedRequest request)
+        {
+            var keyword = SplitHelper.SplitAndTrim(request.Search!, ',');
+
+            //if has date 
+            DateTime? date = null;
+            foreach (var k in keyword)
+            {
+                if (DateTime.TryParse(k, out var parsedDate))
+                {
+                    date = parsedDate;
+                    break;
+                }
+            }
+
+            try
+            {
+                var (orders, totalCount) = await _unitOfWork.Orders.GetPagedAsync(
+                  pageNumber: request.PageNumber,
+                  pageSize: request.PageSize,
+                  asNoTracking: true,
+                  include: o => o.Include(o => o.User),
+                  filter: o => keyword.Any(k => o.User.UserName!.ToString().Contains(k) ||
+                                                (date.HasValue && o.OrderDate.HasValue && o.OrderDate.Value.Date == date.Value.Date) || o.Status.Contains(k) || o.IsActive == true)
+                );
+                var orderResponses = _mapper.Map<IEnumerable<OrderResponse>>(orders);
+                return PagedResponse<OrderResponse>.Response(orderResponses.ToList(), totalCount, request.PageNumber, request.PageSize);
             }
             catch (Exception ex)
             {

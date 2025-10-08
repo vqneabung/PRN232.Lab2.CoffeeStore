@@ -13,7 +13,7 @@ namespace PRN232.Lab2.CoffeeStore.Services.Interfaces
 {
     public interface IPaymentService
     {
-        Task<OneOf<PagedResponse<PaymentResponse>, BaseError>> GetAllAsync(PagedAndSortedRequest pagedAndSortedRequest);
+        Task<OneOf<PagedResponse<PaymentResponse>, BaseError>> GetPagedAsync(SearchPagedSortedRequest request);
         Task<OneOf<PaymentResponse, BaseError>> GetByIdAsync(Guid id);
         Task<OneOf<bool, BaseError>> CreateAsync(CreatePaymentRequest request);
         Task<OneOf<bool, BaseError>> DeleteAsync(Guid id);

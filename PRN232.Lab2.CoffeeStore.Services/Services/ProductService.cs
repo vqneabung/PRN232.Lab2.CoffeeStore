@@ -13,6 +13,8 @@ using OneOf;
 using Common;
 using Common.DTOs.Request;
 using PRN232.Lab2.CoffeeStore.Repositories.Interfaces;
+using Common.Utils;
+using Microsoft.EntityFrameworkCore;
 
 namespace PRN232.Lab2.CoffeeStore.Services.Services
 {
@@ -88,6 +90,39 @@ namespace PRN232.Lab2.CoffeeStore.Services.Services
             {
                 var productResponse = _mapper.Map<ProductResponse>(product);
                 return productResponse;
+            }
+            catch (Exception ex)
+            {
+                return (BaseError)ex.Message;
+            }
+        }
+
+        public async Task<OneOf<IEnumerable<ProductResponse>, BaseError>> GetPagedAsync(SearchPagedSortedRequest request)
+        {
+            var keyword = SplitHelper.SplitAndTrim(request.Search!, ',');
+
+            try
+            {
+                var (products, totalCount) = await _unitOfWork.Products.GetPagedAsync(
+                    pageNumber: request.PageNumber,
+                    pageSize: request.PageSize,
+                    asNoTracking: true,
+                    include: query => query.Include(p => p.Category),
+                    filter: p => p.IsActive == true && keyword.Any(k =>
+                        // Search by Product Name
+                        (p.Name != null && p.Name.Contains(k)) ||
+                        // Search by Description
+                        (p.Description != null && p.Description.Contains(k)) ||
+                        // Search by Category Name
+                        (p.Category != null && p.Category.Name != null && p.Category.Name.Contains(k)) ||
+                        // Search by Price (exact or contains)
+                        p.Price.ToString().Contains(k)
+                    )
+                );
+                
+                var productResponses = _mapper.Map<IEnumerable<ProductResponse>>(products);
+                var pagedResponse = PagedResponse<ProductResponse>.Response(productResponses.ToList(), totalCount, request.PageNumber, request.PageSize);
+                return pagedResponse.Data ?? new List<ProductResponse>();
             }
             catch (Exception ex)
             {
