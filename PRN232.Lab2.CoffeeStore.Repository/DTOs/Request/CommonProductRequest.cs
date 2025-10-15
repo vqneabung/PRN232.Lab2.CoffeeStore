@@ -17,7 +17,7 @@ namespace PRN232.Lab2.CoffeeStore.Repositories.DTOs.Request
         [Required]
         public decimal Price { get; set; }
 
-        [Required]
-        public int? CategoryId { get; set; }
+        [Required]  
+        public Guid? CategoryId { get; set; }
     }
 }

@@ -62,7 +62,12 @@ namespace PRN232.Lab2.CoffeeStore.Services.Services
             if (emailExists)
                 return (BaseError)"Email already exists";
 
-            var user = _mapper.Map<User>(register);
+            var user = new User
+            {
+                Email = register.Email,
+                FullName = register.FullName!,
+                UserName = register.Username
+            };
 
             var createResult = await _userManager.CreateAsync(user, register.Password!);
             if (!createResult.Succeeded)
@@ -90,5 +95,6 @@ namespace PRN232.Lab2.CoffeeStore.Services.Services
             var existingUser = await _userManager.FindByEmailAsync(email);
             return existingUser != null;
         }
+
     }
 }

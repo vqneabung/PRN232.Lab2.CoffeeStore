@@ -8,7 +8,7 @@ namespace PRN232.Lab2.CoffeeStore.Repositories.DTOs.Response
 {
     public class ProductResponse
     {
-        public int ProductId { get; set; }
+        public Guid ProductId { get; set; }
 
         public string? Name { get; set; }
 
@@ -16,7 +16,7 @@ namespace PRN232.Lab2.CoffeeStore.Repositories.DTOs.Response
 
         public decimal Price { get; set; }
 
-        public int? CategoryId { get; set; }
+        public Guid? CategoryId { get; set; }
 
         public bool? IsActive { get; set; }
     }

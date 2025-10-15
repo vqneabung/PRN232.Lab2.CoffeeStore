@@ -32,7 +32,7 @@ namespace PRN232.Lab2.CoffeeStore.API.Controllers
             var result = await _authService.LoginAsync(login);
             return result.Match(
                 token => Ok(token),
-                error => BadRequest(error)
+                error => Unauthorized(error)
             );
         }
 

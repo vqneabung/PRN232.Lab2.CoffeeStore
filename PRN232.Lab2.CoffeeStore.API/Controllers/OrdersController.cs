@@ -69,7 +69,7 @@ namespace PRN232.Lab2.CoffeeStore.API.Controllers
             );
         }
 
-        [Authorize(Roles = "User")]
+        [Authorize(Roles = "User, Admin")]
         [HttpGet("detail/{orderId}")]
         public async Task<BaseActionResult<IEnumerable<OrderDetailResponse>>> GetOrderDetailById(Guid orderId)
         {
