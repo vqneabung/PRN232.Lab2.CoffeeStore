@@ -9,7 +9,6 @@ using PRN232.Lab2.CoffeeStore.Services.Interfaces;
 
 namespace PRN232.Lab2.CoffeeStore.API.Controllers
 {
-    [Authorize(Roles = "Admin")]
     [Route("api/[controller]")]
     [ApiController]
     public class CategoriesController : ControllerBaseWithBaseReponse
@@ -40,6 +39,7 @@ namespace PRN232.Lab2.CoffeeStore.API.Controllers
             );
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<BaseActionResult<bool>> Create([FromBody] CreateCategoryRequest request)
         {
@@ -50,6 +50,7 @@ namespace PRN232.Lab2.CoffeeStore.API.Controllers
             );
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPut]
         public async Task<BaseActionResult<bool>> Update([FromBody] UpdateCategoryRequest request)
         {

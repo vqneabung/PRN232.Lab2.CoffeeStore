@@ -60,7 +60,7 @@ namespace PRN232.Lab2.CoffeeStore.API.Controllers
 
         [Authorize (Roles = "Admin")]
         [HttpGet]
-        public async Task<BaseActionResult<IEnumerable<OrderResponse>>> GetPagedAsync(SearchPagedSortedRequest request)
+        public async Task<BaseActionResult<IEnumerable<OrderResponse>>> GetPagedAsync([FromQuery] SearchPagedSortedRequest request)
         {
             var orders = await _orderService.GetPagedAsync(request);
             return orders.Match(
