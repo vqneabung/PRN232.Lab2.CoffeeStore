@@ -20,5 +20,7 @@ namespace PRN232.Lab2.CoffeeStore.Repositories.DTOs.Response
 
         public bool? IsActive { get; set; } = true;
 
+        public List<OrderDetailResponse>? OrderDetails { get; set; }
+
     }
 }

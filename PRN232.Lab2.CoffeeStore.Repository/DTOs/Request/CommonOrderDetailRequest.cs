@@ -9,11 +9,10 @@ namespace PRN232.Lab2.CoffeeStore.Repositories.DTOs.Request
 {
     public class CommonOrderDetailRequest
     {
-        [Required]
-        public int? OrderId { get; set; }
+        public Guid? OrderId { get; set; }
 
         [Required]
-        public int? ProductId { get; set; }
+        public Guid? ProductId { get; set; }
 
         [Required]
         [Range(1, int.MaxValue, ErrorMessage = "Quantity must be greater than 0")]

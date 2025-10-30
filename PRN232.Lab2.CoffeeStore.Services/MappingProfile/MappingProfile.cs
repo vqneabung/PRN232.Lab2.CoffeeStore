@@ -32,12 +32,13 @@
                 CreateMap<Order, OrderResponse>()
                     .ForMember(dest => dest.OrderDate, opt => opt.MapFrom(src => src.OrderDate))
                     .ForMember(dest => dest.PaymentId, opt => opt.MapFrom(src => src.PaymentId))
-                    .ForMember(dest => dest.IsActive, opt => opt.MapFrom(src => src.IsActive));
+                    .ForMember(dest => dest.IsActive, opt => opt.MapFrom(src => src.IsActive))
+                    .ForMember(dest => dest.OrderDetails, opt => opt.MapFrom(src => src.OrderDetails));
 
                 CreateMap<OrderDetail, OrderDetailResponse>()
-                    .ForMember(dest => dest.OrderId, opt => opt.MapFrom(src => src.OrderId))
-                    .ForMember(dest => dest.ProductId, opt => opt.MapFrom(src => src.ProductId))
-                    .ForMember(dest => dest.IsActive, opt => opt.MapFrom(src => src.IsActive));
+                        .ForMember(dest => dest.OrderId, opt => opt.MapFrom(src => src.OrderId))
+                        .ForMember(dest => dest.ProductId, opt => opt.MapFrom(src => src.ProductId))
+                        .ForMember(dest => dest.IsActive, opt => opt.MapFrom(src => src.IsActive));
 
                 CreateMap<Payment, PaymentResponse>()
                     .ForMember(dest => dest.OrderId, opt => opt.MapFrom(src => src.OrderId))
@@ -78,15 +79,24 @@
                 CreateMap<CreateOrderRequest, Order>()
                     .ForMember(dest => dest.OrderId, opt => opt.Ignore())
                     .ForMember(dest => dest.Payment, opt => opt.Ignore())
-                    .ForMember(dest => dest.OrderDetails, opt => opt.Ignore())
                     .ForMember(dest => dest.Payments, opt => opt.Ignore())
+                    .ForMember(dest => dest.User, opt => opt.Ignore())
                     .ForMember(dest => dest.OrderDate, opt => opt.MapFrom(src => DateTime.UtcNow))
-                    .ForMember(dest => dest.IsActive, opt => opt.MapFrom(src => true));
+                    .ForMember(dest => dest.IsActive, opt => opt.MapFrom(src => true))
+                    .ForMember(dest => dest.OrderDetails, opt => opt.MapFrom(src => src.OrderDetails))
+                    .ForMember(dest => dest.PaymentId, opt => opt.Ignore());
 
-                CreateMap<CreateOrderDetail, OrderDetail>()
+                CreateMap<CommonOrderDetailRequest, OrderDetail>()
                     .ForMember(dest => dest.OrderDetailId, opt => opt.Ignore())
                     .ForMember(dest => dest.Order, opt => opt.Ignore())
                     .ForMember(dest => dest.Product, opt => opt.Ignore())
+                    .ForMember(dest => dest.IsActive, opt => opt.MapFrom(src => true));
+
+                CreateMap<CommonPaymentRequest, Payment>()
+                    .ForMember(dest => dest.PaymentId, opt => opt.Ignore())
+                    .ForMember(dest => dest.Order, opt => opt.Ignore())
+                    .ForMember(dest => dest.Orders, opt => opt.Ignore())
+                    .ForMember(dest => dest.PaymentDate, opt => opt.MapFrom(src => DateTime.UtcNow))
                     .ForMember(dest => dest.IsActive, opt => opt.MapFrom(src => true));
 
                 CreateMap<CreatePaymentRequest, Payment>()

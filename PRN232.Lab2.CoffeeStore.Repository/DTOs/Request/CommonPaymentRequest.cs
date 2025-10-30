@@ -9,11 +9,12 @@ namespace PRN232.Lab2.CoffeeStore.Repositories.DTOs.Request
 {
     public class CommonPaymentRequest
     {
-        [Required]
-        public int? OrderId { get; set; }
+        public Guid? OrderId { get; set; }
 
-        [Required]
-        public decimal Amount { get; set; }
+        // Amout should be optional, default to 0
+        // Must be greater than or equal to 0
+        [Range(0, double.MaxValue, ErrorMessage = "Amount must be greater than or equal to 0")]
+        public decimal? Amount { get; set; } = 0;
 
         [Required]
         public string? PaymentMethod { get; set; }

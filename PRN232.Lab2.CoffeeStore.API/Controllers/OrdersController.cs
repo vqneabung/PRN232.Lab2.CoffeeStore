@@ -91,7 +91,7 @@ namespace PRN232.Lab2.CoffeeStore.API.Controllers
             );
         }
 
-        [Authorize(Roles = "User")]
+        [Authorize(Roles = "User, Admin")]
         [HttpPost]
         public async Task<BaseActionResult<bool>> Create([FromBody] CreateOrderRequest request)
         {

@@ -10,10 +10,10 @@ namespace PRN232.Lab2.CoffeeStore.Repositories.DTOs.Request
     public class CommonOrderRequest
     {
         [Required]
-        public string? UserId { get; set; }
+        public Guid? UserId { get; set; }
 
         [Required]
-        public string? Status { get; set; }
+        public string? Status { get; set; } = "Pending";
 
         public int? PaymentId { get; set; }
 
